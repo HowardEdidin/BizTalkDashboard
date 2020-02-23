@@ -1,0 +1,70 @@
+﻿@page
+@model BizTalkDashboard.ReceiveLocationsModel
+@{
+    ViewData["Title"] = "ReceiveLocations";
+}
+
+<h1>Receive Locations</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceiveLocations.First().Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceiveLocations.First().ReceivePortName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceiveLocations.First().Enable)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceiveLocations.First().TransportType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{string trClass = "table-success";}
+        @{var orderedModel = Model.ReceiveLocations.OrderBy(m => m.Enable);}
+        @foreach (var item in orderedModel)
+        {
+            @if (!item.Enable)
+            {
+                trClass = "table-danger";
+
+            }
+            else
+            {
+                trClass = "table-success";
+            }
+            <tr class="@trClass">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReceivePortName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Enable)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TransportType)
+                </td>
+                <td>
+                    @if (Model.IsAdminUser)
+                    {
+                        @if (item.Enable)
+                        {
+                            @Html.ActionLink("Disable", "Index", new { receivePort = item.ReceivePortName, receiveLocation = item.Name, state = "Disable" }, new { @class = "btn btn-primary", @style = "color:white" });
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Enable", "Index", new { receivePort = item.ReceivePortName, receiveLocation = item.Name, state = "Enable" }, new { @class = "btn btn-primary", @style = "color:white" });
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

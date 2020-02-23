@@ -1,0 +1,74 @@
+﻿@page
+@model BizTalkDashboard.HostInstancesModel
+@{
+    ViewData["Title"] = "HostInstances";
+}
+
+<h1>Host Instances</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.HostInstances.First().HostName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HostInstances.First().RunningServer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HostInstances.First().ServiceState)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HostInstances.First().HostType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{string trClass = "table-success";}
+        @foreach (var item in Model.HostInstances)
+        {
+            @if (item.ServiceState=="Running" || item.HostType=="Isolated")
+            {
+                trClass = "table-success";
+
+            }
+            else
+            {
+                trClass = "table-danger";
+            }
+            <tr class="@trClass">
+                <td>
+                    @Html.DisplayFor(modelItem => item.HostName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RunningServer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ServiceState)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HostType)
+                </td>
+                <td>
+                    @if (Model.IsAdminUser)
+                    {
+                        @if (item.HostType == "In_process")
+                        {
+                            @if (item.ServiceState == "Running")
+                            {
+                                @Html.ActionLink("Stop", "Index", new { hostname = item.HostName, servername = item.RunningServer, state = item.ServiceState }, new { @class = "btn btn-primary", @style = "color:white" });
+                            }
+                            else
+                            {
+                                @Html.ActionLink("Start", "Index", new { hostname = item.HostName, servername = item.RunningServer, state = item.ServiceState }, new { @class = "btn btn-primary", @style = "color:white" });
+                            }
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

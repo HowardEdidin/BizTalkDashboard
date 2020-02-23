@@ -1,0 +1,109 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+    <h1>BizTalk status</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.btsStatus.hostInstancesRunning)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.btsStatus.hostInstancesRunning)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.btsStatus.hostInstancesNotRunning)
+                </td>
+                @if (Model.btsStatus.hostInstancesNotRunning > 0)
+                {
+                    <td class="alert-danger">
+                        @Html.DisplayFor(model => model.btsStatus.hostInstancesNotRunning)
+                    </td>
+                }
+                else
+                {
+                    <td class="alert-success">
+                        @Html.DisplayFor(model => model.btsStatus.hostInstancesNotRunning)
+                    </td>
+                }
+
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.btsStatus.receiveLocationsEnabled)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.btsStatus.receiveLocationsEnabled)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.btsStatus.receiveLocationsDisabled)
+                </td>
+                @if (Model.btsStatus.receiveLocationsDisabled > 0)
+                {
+                    <td class="table-danger">
+                        @Html.DisplayFor(model => model.btsStatus.receiveLocationsDisabled)
+                    </td>
+                }
+                else
+                {
+                    <td class="table-success">
+                        @Html.DisplayFor(model => model.btsStatus.receiveLocationsDisabled)
+                    </td>
+                }
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.btsStatus.suspendedInstancesCount)
+                </td>
+                @if (Model.btsStatus.suspendedInstancesCount > Model.viewSettings.suspendedWarningThreshold)
+                {
+                    <td class="table-warning">
+                        @Html.DisplayFor(model => model.btsStatus.suspendedInstancesCount)
+                    </td>
+                }
+                else if (Model.btsStatus.suspendedInstancesCount > Model.viewSettings.suspendedDangerThreshold)
+                {
+                    <td class="table-danger">
+                        @Html.DisplayFor(model => model.btsStatus.suspendedInstancesCount)
+                    </td>
+                }
+                else
+                {
+                    <td class="table-success">
+                        @Html.DisplayFor(model => model.btsStatus.suspendedInstancesCount)
+                    </td>
+                }
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.btsStatus.runningInstancesCount)
+                </td>
+                @if (Model.btsStatus.runningInstancesCount > Model.viewSettings.runningInstWarningThreshold)
+                {
+                    <td class="table-warning">
+                        @Html.DisplayFor(model => model.btsStatus.runningInstancesCount)
+                    </td>
+                }
+                else if (Model.btsStatus.runningInstancesCount > Model.viewSettings.runningInstDangerThreshold)
+                {
+                    <td class="table-danger">
+                        @Html.DisplayFor(model => model.btsStatus.runningInstancesCount)
+                    </td>
+                }
+                else
+                {
+                    <td class="table-success">
+                        @Html.DisplayFor(model => model.btsStatus.runningInstancesCount)
+                    </td>
+                }
+            </tr>
+        </tbody>
+    </table>
