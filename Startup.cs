@@ -55,7 +55,7 @@ namespace BizTalkDashboard
                 endpoints.MapRazorPages();
             });
 
-            app.UseSession();
+            
         }
     }
 }
