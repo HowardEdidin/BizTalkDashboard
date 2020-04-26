@@ -1,0 +1,110 @@
+﻿@page
+@model BizTalkDashboard.LatestMessagesModel
+@{
+    ViewData["Title"] = "LatestMessages";
+}
+
+<h1>Latest Messages</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceiveLocations2.First().applicationName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceiveLocations2.First().receivePortName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceiveLocations2.First().receiveLocationName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceiveLocations2.First().disabled)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceiveLocations2.First().lastMessageReceivedDateTime)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{string trClassApi = "table-success";}
+        @{var orderedModelRL = Model.ReceiveLocations2.OrderBy(m => m.applicationName);}
+        @foreach (var itemRL in orderedModelRL)
+        {
+            @if (itemRL.disabled)
+            {
+                trClassApi = "table-danger";
+
+            }
+            else
+            {
+                trClassApi = "table-success";
+            }
+            <tr class="@trClassApi">
+                <td>
+                    @Html.DisplayFor(modelItem => itemRL.applicationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => itemRL.receivePortName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => itemRL.receiveLocationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => itemRL.disabled)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => itemRL.lastMessageReceivedDateTime)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SendPorts.First().applicationName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SendPorts.First().sendPortName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SendPorts.First().portStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SendPorts.First().lastMessageSentDatetime)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{var orderedModelSP = Model.SendPorts.OrderBy(m => m.applicationName);}
+        @foreach (var itemSP in orderedModelSP)
+        {
+            @if (itemSP.portStatus != "Started")
+            {
+                trClassApi = "table-danger";
+
+            }
+            else
+            {
+                trClassApi = "table-success";
+            }
+            <tr class="@trClassApi">
+                <td>
+                    @Html.DisplayFor(modelItem => itemSP.applicationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => itemSP.sendPortName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => itemSP.portStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => itemSP.lastMessageSentDatetime)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

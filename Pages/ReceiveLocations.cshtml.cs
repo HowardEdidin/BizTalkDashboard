@@ -18,7 +18,7 @@ namespace BizTalkDashboard
         readonly BizTalkAPIHelper _api = new BizTalkAPIHelper();
         public IEnumerable<ReceiveLocation> ReceiveLocations { get; private set; }
         public bool IsAdminUser { get; set; }
-
+        
         public ReceiveLocationsModel(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -27,7 +27,7 @@ namespace BizTalkDashboard
         public async Task OnGet(string receivePort, string receiveLocation, string state)
         {
             HttpClient client = _api.InitBiztalkMgmtSrv();
-
+            
             if (!String.IsNullOrEmpty(receivePort) || !String.IsNullOrEmpty(receiveLocation) || !String.IsNullOrEmpty(state))
             {
                 HttpResponseMessage resStop = await client.PutAsync("ReceiveLocations/" + state + "/" + receivePort + "/" + receiveLocation, null);
@@ -42,7 +42,6 @@ namespace BizTalkDashboard
             {
                 var result = res.Content.ReadAsStringAsync().Result;
                 ReceiveLocations = JsonConvert.DeserializeObject<IEnumerable<ReceiveLocation>>(result);
-
             }
 
             IsAdminUser = Security.IsInGroup(User, _configuration["AdminADGroup"]);

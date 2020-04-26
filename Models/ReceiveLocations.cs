@@ -6,7 +6,21 @@ using System.Threading.Tasks;
 
 namespace BizTalkDashboard.Models
 {
-
+    public class ReceiveLocation2
+    {
+        [DisplayName("Application")]
+        public string applicationName { get; set; }
+        [DisplayName("Receive port")]
+        public string receivePortName { get; set; }
+        [DisplayName("Receive location")]
+        public string receiveLocationName { get; set; }
+        [DisplayName("Disabled")]
+        public bool disabled { get; set; }
+        [DisplayName("Last message received")]
+        public DateTime? lastMessageReceivedDateTime { get; set; }
+    }
+    
+    
     public class ReceiveLocation
     {
         [DisplayName("Rloc name")]
