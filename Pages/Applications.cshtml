@@ -1,0 +1,179 @@
+﻿@page
+@model BizTalkDashboard.ApplicationsModel
+@{
+    ViewData["Title"] = "Applications";
+}
+
+<h1>Applications</h1>
+
+@{string trClass = "table-success";}
+@foreach (var app in Model.AppTree)
+{   
+<p>
+    <h3 class="bg-light">@Html.DisplayFor(modelItem => app.applicationName)</h3>
+    <button onclick="showDiv('@Html.DisplayFor(modelItem => app.applicationName)')" class="btn-info" id="@Html.DisplayFor(modelItem => app.applicationName)BTN" >Expand</button>
+    <div id="@Html.DisplayFor(modelItem => app.applicationName)DIV" style="display:none">
+        @if (app.orchestrations.Count > 0)
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="3">
+                            Orchestrations
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                            Last start
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var orch in app.orchestrations)
+                    {
+                        @if (orch.orchestrationStatus == "Started")
+                        {
+                            trClass = "table-success";
+
+                        }
+                        else
+                        {
+                            trClass = "table-danger";
+                        }
+                        <tr class="@trClass">
+                            <td>
+                                @Html.DisplayFor(modelItem => orch.orchestrationName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => orch.orchestrationStatus)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => orch.lastStartDateTime)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        @if (app.receiveLocations.Count > 0)
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="3">
+                            Receive locations
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Disabled
+                        </th>
+                        <th>
+                            Last msg
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var rloc in app.receiveLocations)
+                    {
+                        @if (!rloc.disabled)
+                        {
+                            trClass = "table-success";
+
+                        }
+                        else
+                        {
+                            trClass = "table-danger";
+                        }
+                        <tr class="@trClass">
+                            <td>
+                                @Html.DisplayFor(modelItem => rloc.receiveLocationName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => rloc.disabled)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => rloc.lastMessageReceivedDateTime)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        @if (app.sendPorts.Count > 0)
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="3">
+                            Send ports
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Disabled
+                        </th>
+                        <th>
+                            Last msg
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var sp in app.sendPorts)
+                    {
+                        @if (sp.portStatus == "Started")
+                        {
+                            trClass = "table-success";
+
+                        }
+                        else
+                        {
+                            trClass = "table-danger";
+                        }
+                        <tr class="@trClass">
+                            <td>
+                                @Html.DisplayFor(modelItem => sp.sendPortName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => sp.portStatus)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => sp.lastMessageSentDatetime)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</p>
+}
+
+<script>
+    function showDiv(appName) {
+        var div = document.getElementById(appName+'DIV');
+        if (div.style.display == "none") {
+            div.style.display = "block";
+        } else {
+            div.style.display = "none";
+        }
+        var btn = document.getElementById(appName + 'BTN');
+        if (btn.innerHTML == "Expand") {
+            btn.innerHTML = "Shrink";
+        } else {
+            btn.innerHTML = "Expand";
+        }
+    }
+</script>
