@@ -11,154 +11,156 @@
 {   
 <p>
     <h3 class="bg-light">@Html.DisplayFor(modelItem => app.applicationName)</h3>
-    <button onclick="showDiv('@Html.DisplayFor(modelItem => app.applicationName)')" class="btn-info" id="@Html.DisplayFor(modelItem => app.applicationName)BTN" >Expand</button>
-    <div id="@Html.DisplayFor(modelItem => app.applicationName)DIV" style="display:none">
-        @if (app.orchestrations.Count > 0)
-        {
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th colspan="3">
-                            Orchestrations
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>
-                            Name
-                        </th>
-                        <th>
-                            Status
-                        </th>
-                        <th>
-                            Last start
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var orch in app.orchestrations)
+    
+    @if (app.orchestrations.Count > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th colspan="3">
+                        <button class="fas fa-angle-right" onclick="showDiv('@Html.DisplayFor(modelItem => app.applicationName)Orc')" id="@Html.DisplayFor(modelItem => app.applicationName)OrcBTN"></button>
+                        Orchestrations
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="@Html.DisplayFor(modelItem => app.applicationName)OrcDIV" style="display:none">
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Last start
+                    </th>
+                </tr>
+                @foreach (var orch in app.orchestrations)
+                {
+                    @if (orch.orchestrationStatus == "Started")
                     {
-                        @if (orch.orchestrationStatus == "Started")
-                        {
-                            trClass = "table-success";
+                        trClass = "table-success";
 
-                        }
-                        else
-                        {
-                            trClass = "table-danger";
-                        }
-                        <tr class="@trClass">
-                            <td>
-                                @Html.DisplayFor(modelItem => orch.orchestrationName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => orch.orchestrationStatus)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => orch.lastStartDateTime)
-                            </td>
-                        </tr>
                     }
-                </tbody>
-            </table>
-        }
-        @if (app.receiveLocations.Count > 0)
-        {
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th colspan="3">
-                            Receive locations
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>
-                            Name
-                        </th>
-                        <th>
-                            Disabled
-                        </th>
-                        <th>
-                            Last msg
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var rloc in app.receiveLocations)
+                    else
                     {
-                        @if (!rloc.disabled)
-                        {
-                            trClass = "table-success";
-
-                        }
-                        else
-                        {
-                            trClass = "table-danger";
-                        }
-                        <tr class="@trClass">
-                            <td>
-                                @Html.DisplayFor(modelItem => rloc.receiveLocationName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => rloc.disabled)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => rloc.lastMessageReceivedDateTime)
-                            </td>
-                        </tr>
+                        trClass = "table-danger";
                     }
-                </tbody>
-            </table>
-        }
-        @if (app.sendPorts.Count > 0)
-        {
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th colspan="3">
-                            Send ports
-                        </th>
+                    <tr class="@trClass">
+                        <td>
+                            @Html.DisplayFor(modelItem => orch.orchestrationName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => orch.orchestrationStatus)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => orch.lastStartDateTime)
+                        </td>
                     </tr>
-                    <tr>
-                        <th>
-                            Name
-                        </th>
-                        <th>
-                            Disabled
-                        </th>
-                        <th>
-                            Last msg
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var sp in app.sendPorts)
+                }
+            </tbody>
+        </table>
+    }
+    @if (app.receiveLocations.Count > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        <button onclick="showDiv('@Html.DisplayFor(modelItem => app.applicationName)Rl')" class="fas fa-angle-right" id="@Html.DisplayFor(modelItem => app.applicationName)RlBTN"></button>
+                        Receive locations
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="@Html.DisplayFor(modelItem => app.applicationName)RlDIV" style="display:none">
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Disabled
+                    </th>
+                    <th>
+                        Last msg
+                    </th>
+                </tr>
+                @foreach (var rloc in app.receiveLocations)
+                {
+                    @if (!rloc.disabled)
                     {
-                        @if (sp.portStatus == "Started")
-                        {
-                            trClass = "table-success";
+                        trClass = "table-success";
 
-                        }
-                        else
-                        {
-                            trClass = "table-danger";
-                        }
-                        <tr class="@trClass">
-                            <td>
-                                @Html.DisplayFor(modelItem => sp.sendPortName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => sp.portStatus)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => sp.lastMessageSentDatetime)
-                            </td>
-                        </tr>
                     }
-                </tbody>
-            </table>
-        }
-    </div>
-</p>
+                    else
+                    {
+                        trClass = "table-danger";
+                    }
+                    <tr class="@trClass">
+                        <td>
+                            @Html.DisplayFor(modelItem => rloc.receiveLocationName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => rloc.disabled)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => rloc.lastMessageReceivedDateTime)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    @if (app.sendPorts.Count > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        <button onclick="showDiv('@Html.DisplayFor(modelItem => app.applicationName)Sp')" class="fas fa-angle-right" id="@Html.DisplayFor(modelItem => app.applicationName)SpBTN"></button>
+                        Send ports
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="@Html.DisplayFor(modelItem => app.applicationName)SpDIV" style="display:none">
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Disabled
+                    </th>
+                    <th>
+                        Last msg
+                    </th>
+                </tr>
+                @foreach (var sp in app.sendPorts)
+                {
+                    @if (sp.portStatus == "Started")
+                    {
+                        trClass = "table-success";
+
+                    }
+                    else
+                    {
+                        trClass = "table-danger";
+                    }
+                    <tr class="@trClass">
+                        <td>
+                            @Html.DisplayFor(modelItem => sp.sendPortName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => sp.portStatus)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => sp.lastMessageSentDatetime)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+     }
+        
+    </p>
 }
 
 <script>
@@ -170,10 +172,10 @@
             div.style.display = "none";
         }
         var btn = document.getElementById(appName + 'BTN');
-        if (btn.innerHTML == "Expand") {
-            btn.innerHTML = "Shrink";
+        if (btn.className == "fas fa-angle-down") {
+            btn.className = "fas fa-angle-right";
         } else {
-            btn.innerHTML = "Expand";
+            btn.className = "fas fa-angle-down";
         }
     }
 </script>
